@@ -4,7 +4,7 @@ let dial = 50;
 let password = 0;
 let fancyPassword = 0;
 
-const input = Bun.file(resolve(__dirname, 'input.txt'));
+const input = Bun.file(resolve(__dirname, 'input'));
 const out = Bun.file(resolve(__dirname, 'out.csv'));
 const outWriter = out.writer();
 const data = (await input.text()).split(/\s+/g).filter(v => !!(v.trim()));
