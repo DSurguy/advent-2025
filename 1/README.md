@@ -2,7 +2,9 @@
 https://adventofcode.com/2025/day/1
 
 # Setup
-Download https://adventofcode.com/2025/day/1/input and place it into this folder named `input` (no extension)
+Download https://adventofcode.com/2025/day/1/input and place it into this folder named `input` (no extension).
+
+My input is already included in the repository, feel free to replace it with your own.
 
 # Running
 - From the project root, run `bun run 1`
