@@ -2,6 +2,7 @@ import { resolve } from 'node:path';
 import getHighestJoltage from './getHighestJoltage';
 import { parseArgs } from 'util';
 import getHighestHugeJoltage from './getHighestHugeJoltage';
+import { closeLog, writeLogLines } from './logWriter';
 
 const { values: runArgs } = parseArgs({
   args: Bun.argv,
@@ -11,7 +12,7 @@ const { values: runArgs } = parseArgs({
       short: 'e'
     },
     log: {
-      type: 'string',
+      type: 'boolean',
       short: 'l',
     }
   },
@@ -31,7 +32,12 @@ console.log("Part One", partOneTotal.toString());
 
 let partTwoTotal = BigInt(0);
 for( const bank of banks ) {
-  partTwoTotal += getHighestHugeJoltage(bank);
+  const { joltage, logLines } = getHighestHugeJoltage(bank);
+  partTwoTotal += joltage;
+  if( runArgs.log ) {
+    writeLogLines(logLines+'\n');
+  }
 }
+closeLog();
 
 console.log("Part Two", partTwoTotal.toString());
