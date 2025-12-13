@@ -1,6 +1,7 @@
 import { resolve } from 'node:path';
 import getHighestJoltage from './getHighestJoltage';
 import { parseArgs } from 'util';
+import getHighestHugeJoltage from './getHighestHugeJoltage';
 
 const { values: runArgs } = parseArgs({
   args: Bun.argv,
@@ -21,9 +22,16 @@ const { values: runArgs } = parseArgs({
 const input = Bun.file(resolve(__dirname, runArgs.example ? 'example' : 'input'));
 const banks = (await input.text()).split('\n')
 
-let total = BigInt(0);
+let partOneTotal = BigInt(0);
 for( const bank of banks ) {
-  total += BigInt(getHighestJoltage(bank));
+  partOneTotal += BigInt(getHighestJoltage(bank));
 }
 
-console.log("Part One", total.toString());
+console.log("Part One", partOneTotal.toString());
+
+let partTwoTotal = BigInt(0);
+for( const bank of banks ) {
+  partTwoTotal += getHighestHugeJoltage(bank);
+}
+
+console.log("Part Two", partTwoTotal.toString());
