@@ -10,7 +10,7 @@ My input is already included in the repository, feel free to replace it with you
 - From the project root, run `bun run 3`
 - From this directory, run `bun index.ts`
 
-To run the example from the day 2 instructions, pass `--example` as an argument: `bun run 3 --example` or `bun index.ts --example`. The solutions for the included example should be `357` and `3121910778619`.
+To run the example from the day 3 instructions, pass `--example` as an argument: `bun run 3 --example` or `bun index.ts --example`. The solutions for the included example should be `357` and `3121910778619`.
 
 ## Tests
 There is also a test suite you can run with `bun test`:

@@ -1,6 +1,7 @@
 import { resolve } from 'node:path';
 import { parseArgs } from 'util';
 import { closeLog, writeLogLines } from './logWriter'
+import { generateGraph } from './generateGraph';
 
 const { values: runArgs } = parseArgs({
   args: Bun.argv,
@@ -22,26 +23,59 @@ const input = Bun.file(resolve(__dirname, runArgs.example ? 'example' : 'input')
 const lines = (await input.text()).split('\n')
 
 const time = performance.now();
-function generateWeights(lines: string[]) {
-  let underFour = 0;
-  let weights: number[][] = [];
-  for( let y=0; y<lines.length; y++ ) {
-    weights.push([])
-    for( let x=0; x<lines[y]!.length; x++ ){
-      let weight = 0;
-      weight += lines[y-1]?.[x-1] === '@' ? 1 : 0;
-      weight += lines[y-1]?.[x] === '@' ? 1 : 0;
-      weight += lines[y-1]?.[x+1] === '@' ? 1 : 0;
-      weight += lines[y]?.[x-1] === '@' ? 1 : 0;
-      // Self
-      weight += lines[y]?.[x+1] === '@' ? 1 : 0;
-      weight += lines[y+1]?.[x-1] === '@' ? 1 : 0;
-      weight += lines[y+1]?.[x] === '@' ? 1 : 0;
-      weight += lines[y+1]?.[x+1] === '@' ? 1 : 0;
-      weights[y]?.push(weight)
-      if( lines[y]?.[x] === '@' && weight < 4 ) underFour++;
+
+const { initiallyAccessibleNodes, nodes } = generateGraph(lines);
+
+const xLength = lines[0]?.length || 0;
+const yLength = lines.length;
+function drawGraphToLog() {
+  const lines = []
+  for ( let y=0; y<yLength; y++ ) {
+    let str = '';
+    for( let x=0; x<xLength; x++ ) {
+      const xy = `${x},${y}`;
+      const node = nodes.get(xy);
+      if( node ) {
+        str += node.accessed ? 'x' : node.neighbors.size
+      } else str += '.'
+    }
+    lines.push(str)
+  }
+  writeLogLines(lines.join('\n')+'\n')
+}
+
+const duration = performance.now() - time
+console.log(`Part One: ${initiallyAccessibleNodes.length} in ${duration}ms`);
+
+// Access nodes and remove them one by one
+function processGraph(node: PaperNode) {
+  let accessed = 0;
+  if( node.neighbors.size < 4 && !node.accessed ) {
+    const neighbors = node.neighbors.values().toArray().map(xy => nodes.get(xy)) as PaperNode[]
+    accessed += 1;
+    node.accessed = true;
+    for( let neighbor of neighbors ) {
+      neighbor.neighbors.delete(`${node.x},${node.y}`);
+    }
+    if( runArgs.log ) {
+      writeLogLines(`${node.x},${node.y}`);
+      drawGraphToLog()
+    }
+
+    for( let neighbor of neighbors ) {
+      accessed += processGraph(neighbor);
     }
   }
-  return { weights, underFour };
+  return accessed;
 }
-console.log(`Part One: ${generateWeights(lines).underFour} in ${performance.now() - time}ms`);
+
+if( runArgs.log ) drawGraphToLog()
+
+const totalAccessedNodes = initiallyAccessibleNodes.reduce((acc, node) => {
+  return acc + processGraph(node);
+}, 0)
+
+const secondDuration = performance.now() - time
+console.log(`Part Two: ${totalAccessedNodes} in ${secondDuration - duration}ms (Total: ${secondDuration}ms)`);
+
+if( runArgs.log ) closeLog();

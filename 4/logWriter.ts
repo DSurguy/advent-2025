@@ -10,6 +10,7 @@ let outWriter: Bun.FileSink;
 export function writeLogLines(lines: string) {
   if( !outWriter ) {
     const out = Bun.file(resolve(__dirname, 'part2.out'));
+    out.write('') // Clear the file
     outWriter = out.writer();
   }
 
