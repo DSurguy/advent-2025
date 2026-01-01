@@ -24,10 +24,13 @@ You can use the log with the `--example` flag as well.
 **Please note that this file will be well over 100MB for the full solution**, and will take quite a bit longer to process part two when generated.
 
 # Solution Explanation
-This is a pretty standard graph problem, the solution is as follows:
-- Create a graph where all nodes that are touching in the input are connected
-- Keep track of nodes that have less than 4 neighbors when building the graph
-  - These nodes are both the solution to part 1 AND the entry points to the graph
-- Traverse the graph (I used depth first and icky recursion), removing nodes from their neighbors as they meet the "access" criteria (less than 4 neighbors)
+<details>
+  <summary>Part 2 (Spoiler)</summary>
+  This is a pretty standard graph problem, the solution is as follows:
+  - Create a graph where all nodes that are touching in the input are connected
+  - Keep track of nodes that have less than 4 neighbors when building the graph
+    - These nodes are both the solution to part 1 AND the entry points to the graph
+  - Traverse the graph (I used depth first and icky recursion), removing nodes from their neighbors as they meet the "access" criteria (less than 4 neighbors)
 
-This one isn't particularly interesting to me, so I'll leave it there for now.
+  This one isn't particularly interesting to me, so I'll leave it there for now.
+</details>
