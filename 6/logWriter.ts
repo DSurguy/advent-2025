@@ -5,18 +5,18 @@ import { resolve } from 'node:path';
  * so we avoid the file IO overhead if we're not going to write to it.
  */
 
-let outWriter: Bun.FileSink;
+let outWriters: Map<string, Bun.FileSink> = new Map();
 
-export function writeLogLines(lines: string) {
-  if( !outWriter ) {
-    const out = Bun.file(resolve(__dirname, 'part2.out'));
+export function writeLogLines(lines: string, part = '2') {
+  if( !outWriters.has(part) ) {
+    const out = Bun.file(resolve(__dirname, `part${part}.out`));
     out.write('') // Clear the file
-    outWriter = out.writer();
+    outWriters.set(part, out.writer());
   }
 
-  outWriter.write(lines+'\n')
+  outWriters.get(part)!.write(lines+'\n')
 }
 
 export function closeLog() {
-  if( outWriter ) outWriter.end();
+  outWriters.values().forEach( writer => writer.end());
 }
