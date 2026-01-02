@@ -53,9 +53,9 @@ You can use the log with the `--example` flag as well.
 
   Current problem index: 0
 
-  Line 1, substr(0, 3) -> 123
-  Line 2, substr(0, 3) ->  45
-  Line 3, substr(0, 3) ->   6
+  Line 1, substring(0, 3) -> 123
+  Line 2, substring(0, 3) ->  45
+  Line 3, substring(0, 3) ->   6
   ```
 
   We can then simply apply the operator to get the problem solution (`123 * 45 * 6 = 33210`).
@@ -71,9 +71,9 @@ You can use the log with the `--example` flag as well.
   
   Current problem index: 4 (0 + 3 + 1)
 
-  Line 1, substr(4, 3) -> 328
-  Line 2, substr(4, 3) ->  64
-  Line 3, substr(4, 3) ->  98
+  Line 1, substring(4, 7) -> 328
+  Line 2, substring(4, 7) ->  64
+  Line 3, substring(4, 7) ->  98
   ```
 
   Repeating this process, then summing all the results gives the solution to part 1.
@@ -104,19 +104,19 @@ You can use the log with the `--example` flag as well.
   # Adjust -1 for zero-based indexing
   Character Index: 2 (0 + 3 - 1)
 
-  Line 1, substr(2, 3) -> 3
-  Line 2, substr(2, 3) -> 5
-  Line 3, substr(2, 3) -> 6
+  Line 1, substring(2, 3) -> 3
+  Line 2, substring(2, 3) -> 5
+  Line 3, substring(2, 3) -> 6
 
   Character Index: 1
-  Line 1, substr(1, 2) -> 2
-  Line 2, substr(1, 2) -> 4
-  Line 3, substr(1, 2) -> _
+  Line 1, substring(1, 2) -> 2
+  Line 2, substring(1, 2) -> 4
+  Line 3, substring(1, 2) -> _
 
   Character Index: 0
-  Line 1, substr(0, 1) -> 1
-  Line 2, substr(0, 1) -> _
-  Line 3, substr(0, 1) -> _
+  Line 1, substring(0, 1) -> 1
+  Line 2, substring(0, 1) -> _
+  Line 3, substring(0, 1) -> _
   ```
 
   From here, it's basically the same as part 1.
