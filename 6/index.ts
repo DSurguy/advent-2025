@@ -56,5 +56,35 @@ const total = results.reduce((acc, v) => acc + v, 0)
 const duration = performance.now() - time
 console.log(`Part One: ${total} in ${duration}ms`);
 
+const partTwoResults: number[] = []
+
+currentIndex = 0;
+for ( let action of actions ) {
+  let result = 0;
+  for( let i=currentIndex + action.length - 1; i>=currentIndex; i--) {
+    let value = '';
+    for( let lineIndex = 0; lineIndex < lines.length-1; lineIndex++) {
+      const line = lines[lineIndex]!;
+      value += line[i]?.trim() || '';
+    }
+    if( !result ) {
+      result = Number(value);
+    } else if( action.action === '*' ) {
+      result *= Number(value);
+    } else { // +
+      result += Number(value);
+    }
+
+    if( isNaN(Number(result)) ) {
+      console.log(`Problem at col ${currentIndex}`)
+      process.exit(0)
+    }
+  }
+  partTwoResults.push(result);
+  currentIndex += action.length + 1
+}
+
+const partTwoTotal = partTwoResults.reduce((acc, v) => acc + v, 0)
+
 const totalDuration = performance.now() - time
-console.log(`Part Two: ${'TODO'} in ${totalDuration - duration}ms (Total: ${totalDuration})`);
+console.log(`Part Two: ${partTwoTotal} in ${totalDuration - duration}ms (Total: ${totalDuration})`);
